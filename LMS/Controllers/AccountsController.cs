@@ -2,6 +2,8 @@
 using LMS.Model.Model;
 using LMS.Service;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.RegularExpressions;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace LMS.Controllers
 {
@@ -22,9 +24,15 @@ namespace LMS.Controllers
         [HttpPost]
         public ActionResult Create([FromForm] TaiKhoanCreateRequest clr)
         {
-            bool check = taiKhoanService.create(clr);
+            var regexItem = new Regex("(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{8}");
+            if (regexItem.IsMatch(clr.MatKhau))
+            {
+                bool check = taiKhoanService.create(clr);
 
-            return check ? Ok() : BadRequest("create fail");
+                return check ? Ok() : BadRequest("create fail");
+            }
+            else return BadRequest("Password Fail");
+            return BadRequest("Create Fail");
         }
         [HttpPut("{id}")]
         public ActionResult Update(int id, TaiKhoanUpdateRequest clr)
@@ -61,5 +69,38 @@ namespace LMS.Controllers
             else
                 return Ok(check);
         }
+        [HttpPut]
+        [Route("ChangeAvatar")]
+        public ActionResult Create(int id, IFormFile image )
+        {
+            bool check = taiKhoanService.ChangeAvatar(id, image);
+
+            return check ? Ok() : BadRequest("create fail");
+        }
+        
+        [HttpPut]
+        [Route("ChangePassword")]
+        public ActionResult ChangePassword(int Id, string Passnew,string Passold,string Confirmpass)
+        {
+            var regexItem = new Regex("(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{8}");
+            var check = taiKhoanService.CheckPass(Id, Passold);
+            if (check == true)
+            {
+                if (regexItem.IsMatch(Passnew))
+                {
+                    if (Passnew == Confirmpass)
+                    {
+                        bool check1 = taiKhoanService.ChangePassword(Id, Confirmpass);
+                        return check1 ? Ok() : BadRequest("create fail");
+                    }
+                    else
+                        return BadRequest("Pass phai giong nhau");
+                }
+            }else
+                return BadRequest("Pass cu sai ");
+
+            return BadRequest("Change fail");
+        }
+
     }
 }

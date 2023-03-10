@@ -15,7 +15,7 @@ namespace LMS.DTO.Request.TaiKhoanRequest
         public string TenDangNhap { get; set; }
         
         public string MatKhau { get; set; }
-        public IFormFile ImageFile { get; set; }
+        public IFormFile AnhDaiDien { get; set; }
         [HiddenInput]
       //  public string? AnhDaiDien { get; set; }
         public string TenNguoiDung { get; set; }

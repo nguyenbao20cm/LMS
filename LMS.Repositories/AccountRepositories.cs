@@ -4,11 +4,14 @@ using LMS.Model.Model;
 using LMS.Context;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
+using System.Runtime.ConstrainedExecution;
 
 namespace LMS.Repositories
 {
     public interface ITaiKhoanRepository
     {
+        bool ChangePassword(int id, string pass);
         bool create(CreateAccFileANh clr);
         bool update(Account clr);
         bool delete(int id);
@@ -16,8 +19,8 @@ namespace LMS.Repositories
         Account GetById(int id);
         bool Authencate(string username,string password );
         Account Detail(int id);
-
-
+        public bool ChangeAvatar(int id, IFormFile image);
+        public bool CheckPass(int id, string pass);
     }
     public class AccountRepositories : ITaiKhoanRepository
     {
@@ -35,7 +38,14 @@ namespace LMS.Repositories
             if (check == null) return false;
             else return true;
         }
-
+        public bool ChangePassword(int id, string pass)
+        {
+            var a = context.TaiKhoan.Where(x => x.TaiKhoanId == id).FirstOrDefault();
+            a.MatKhau = pass;
+            context.Update(a);
+            int check = context.SaveChanges();
+            return check > 0 ? true : false;
+        }
         public bool create(CreateAccFileANh clr)
         {
             
@@ -100,7 +110,36 @@ namespace LMS.Repositories
             int check = context.SaveChanges();
             return check > 0 ? true : false;
         }
+        public bool ChangeAvatar(int id,IFormFile image)
+        {
+            int check =0;
+            if (image != null)
+            {
+                var fileName = id.ToString() + Path.GetExtension(image.FileName);
+                var uploadFolder = Path.Combine(_environment.WebRootPath, "img", "avatar");
+                var uploadPath = Path.Combine(uploadFolder, fileName);
+                using (FileStream fs = System.IO.File.Create(uploadPath))
+                {
+                    image.CopyTo(fs);
+                    fs.Flush();
+                }
+               
 
+                var result = context.TaiKhoan.Where(x => x.TaiKhoanId == id).FirstOrDefault();
+                result.AnhDaiDien = fileName;
+                
+                context.TaiKhoan.Update(result);
+                check = context.SaveChanges();
+            }
+            return check > 0 ? true : false;
+        }
 
+        public bool CheckPass(int id, string pass)
+        {
+           var check = context.TaiKhoan.Where(x=>x.TaiKhoanId==id).Where(x=>x.MatKhau==pass).FirstOrDefault();
+            if (check == null) return false;
+            else return true;
+            
+        }
     }
 }

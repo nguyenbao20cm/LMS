@@ -3,8 +3,7 @@ using LMS.DTO.Request.AccountRequest;
 using LMS.DTO.Request.TaiKhoanRequest;
 using LMS.Model.Model;
 using LMS.Repositories;
-
-
+using Microsoft.AspNetCore.Http;
 
 namespace LMS.Service
 {
@@ -17,8 +16,9 @@ namespace LMS.Service
         Account GetById(int id);
         Account Detail(int id);
         bool Authencate(string username, string password);
-
-
+        public bool ChangeAvatar(int id, IFormFile image);
+        bool ChangePassword(int id, string pass);
+        public bool CheckPass(int id, string pass);
     }
     public class TaiKhoanService : ITaiKhoanService
     {
@@ -30,7 +30,14 @@ namespace LMS.Service
             this.TaiKhoanRepository = TaiKhoanRepository;
         }
 
-
+        public bool ChangePassword(int id, string pass)
+        {
+            if (id == null)
+                return false;
+            if (pass == null)
+                return false;
+            return TaiKhoanRepository.ChangePassword(id, pass);
+        }
         public bool Authencate(string username, string password)
         {
 
@@ -43,6 +50,13 @@ namespace LMS.Service
                 return false;
         }
 
+        public bool ChangeAvatar(int id, IFormFile image)
+        {
+            if (id == null) return false;
+            if (image == null) return false;
+            return TaiKhoanRepository.ChangeAvatar(id, image);
+        }
+
         public bool create(TaiKhoanCreateRequest clr)
         {
             if (clr.TenDangNhap == null)
@@ -50,7 +64,7 @@ namespace LMS.Service
                     return false;
             if (clr.MatKhau == null)
                 return false;
-          
+
             if (clr.TenNguoiDung == null)
                 return false;
             if (clr.GioiTinh == null)
@@ -66,7 +80,7 @@ namespace LMS.Service
             CreateAccFileANh Tk = new();
             Tk.TenDangNhap = clr.TenDangNhap;
             Tk.MatKhau = clr.MatKhau;
-            Tk.ImageFile = clr.ImageFile;
+            Tk.ImageFile = clr.AnhDaiDien;
             Tk.TenNguoiDung = clr.TenNguoiDung;
             Tk.GioiTinh = clr.GioiTinh;
             Tk.VaiTro = clr.VaiTro;
@@ -83,7 +97,7 @@ namespace LMS.Service
 
         public Account Detail(int id)
         {
-            var a= TaiKhoanRepository.Detail(id);
+            var a = TaiKhoanRepository.Detail(id);
 
             return a;
         }
@@ -130,6 +144,11 @@ namespace LMS.Service
             Tk.Email = clr.Email;
             Tk.SDT = clr.SDT; Tk.DiaChi = clr.DiaChi;
             return TaiKhoanRepository.update(Tk);
+        }
+
+        public bool CheckPass(int id, string pass)
+        {
+           return TaiKhoanRepository.CheckPass(id, pass);
         }
     }
 }
