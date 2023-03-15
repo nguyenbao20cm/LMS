@@ -6,11 +6,15 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
 using System.Runtime.ConstrainedExecution;
+using Microsoft.AspNetCore.Mvc;
+using LMS.DTO.Request.TeachingSubject;
 
 namespace LMS.Repositories
 {
     public interface ITaiKhoanRepository
     {
+        bool CheckID(int id);
+       List<TeachingSubjectGetAll> GetAllTeachingSubject(int id);
         bool ChangePassword(int id, string pass);
         bool create(CreateAccFileANh clr);
         bool update(Account clr);
@@ -31,7 +35,25 @@ namespace LMS.Repositories
             this.context = context;
             this._environment = _environment;
         }
-
+        public List<TeachingSubjectGetAll> GetAllTeachingSubject(int id)
+        {
+         var a=context.TeachingSubject.
+                Include(c => c.ClassRoom)
+                .Include(c => c.Subject).
+                Include(c => c.Account).Where(c=>c.AccountID==id).ToList();
+            List<TeachingSubjectGetAll> result = new();
+            TeachingSubjectGetAll temp = new();
+            foreach (var item in a)
+            {
+                temp.SubjectId = item.SubjectID;
+                temp.SubjectName = item.Subject.Name;
+                temp.Desc = item.Subject.Describe;
+                temp.Status = item.Subject.Status;
+                temp.Document = item.Subject.Document;
+                result.Add(temp);
+            }
+            return result;
+        }
         public bool Authencate(string username,string password)
         {
             var check = context.TaiKhoan.Where(x => x.MatKhau == password).Where(x => x.TenDangNhap == username).FirstOrDefault();
@@ -140,6 +162,13 @@ namespace LMS.Repositories
             if (check == null) return false;
             else return true;
             
+        }
+
+        public bool CheckID(int id)
+        {
+            var check = context.TaiKhoan.Where(x => x.TaiKhoanId == id).FirstOrDefault();
+            if (check == null) return false;
+            else return true;
         }
     }
 }

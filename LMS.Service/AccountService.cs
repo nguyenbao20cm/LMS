@@ -1,6 +1,7 @@
 ﻿
 using LMS.DTO.Request.AccountRequest;
 using LMS.DTO.Request.TaiKhoanRequest;
+using LMS.DTO.Request.TeachingSubject;
 using LMS.Model.Model;
 using LMS.Repositories;
 using Microsoft.AspNetCore.Http;
@@ -9,6 +10,8 @@ namespace LMS.Service
 {
     public interface ITaiKhoanService
     {
+        bool CheckID(int id);
+        List<TeachingSubjectGetAll> GetAllTeachingSubject(int id);
         bool create(TaiKhoanCreateRequest clr);
         bool update(int id, TaiKhoanUpdateRequest clr);
         bool delete(int id);
@@ -29,7 +32,11 @@ namespace LMS.Service
         {
             this.TaiKhoanRepository = TaiKhoanRepository;
         }
-
+        public List<TeachingSubjectGetAll> GetAllTeachingSubject(int id)
+        {
+            
+            return TaiKhoanRepository.GetAllTeachingSubject(id);
+        }
         public bool ChangePassword(int id, string pass)
         {
             if (id == null)
@@ -149,6 +156,11 @@ namespace LMS.Service
         public bool CheckPass(int id, string pass)
         {
            return TaiKhoanRepository.CheckPass(id, pass);
+        }
+
+        public bool CheckID(int id)
+        {
+            return TaiKhoanRepository.CheckID(id);
         }
     }
 }

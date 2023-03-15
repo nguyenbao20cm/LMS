@@ -18,6 +18,8 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("LMS")));
 
 builder.Services.AddTransient<ITaiKhoanService, TaiKhoanService>();
 builder.Services.AddTransient<ITaiKhoanRepository, AccountRepositories>();
+builder.Services.AddTransient<ITeacherRepositories, TeacherRepositories>();
+builder.Services.AddTransient<ITeacherService, TeacherService>();
 
 var app = builder.Build();
 

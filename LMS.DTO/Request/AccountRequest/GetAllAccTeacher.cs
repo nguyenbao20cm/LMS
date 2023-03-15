@@ -1,17 +1,13 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LMS.Model.Model
+namespace LMS.DTO.Request.AccountRequest
 {
-    public class Account
+    public class GetAllAccTeacher
     {
-        [Key]
         public int TaiKhoanId { get; set; }
         public string TenDangNhap { get; set; }
         public string MatKhau { get; set; }
@@ -24,6 +20,5 @@ namespace LMS.Model.Model
         public string Email { get; set; }
         public int SDT { get; set; }
         public string DiaChi { get; set; }
-        public ICollection<TeachingSubject> TeachingSubject { get; set; }
     }
 }
