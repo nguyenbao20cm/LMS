@@ -17,5 +17,6 @@ namespace LMS.Model.Model
         public int Document { get; set; }
      
         public ICollection<TeachingSubject> TeachingSubject { get; set; }
+        public ICollection<DetailsSubject> DetailsSubject { get; set; }
     }
 }

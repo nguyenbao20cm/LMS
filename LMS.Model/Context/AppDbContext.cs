@@ -12,6 +12,7 @@ namespace LMS.Context
         //public DbSet<CT_TeachingSubject> CT_TeachingSubject { get; set; }
         public DbSet<Subject> Subject { get; set; }
         public DbSet<TeachingSubject> TeachingSubject { get; set; }
+        public DbSet<DetailsSubject> DetailsSubject { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Account>(builder =>

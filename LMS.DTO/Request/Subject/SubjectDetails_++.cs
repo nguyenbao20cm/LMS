@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LMS.Model.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LMS.DTO.Request.Subject
 {
-    public class DetailsSubject
+    public class SubjectDetails___
     {
         public int SubjectId { get; set; }
         public string SubjectName { get; set; }
@@ -14,5 +15,6 @@ namespace LMS.DTO.Request.Subject
 
         public string Status { get; set; }
         public int Document { get; set; }
+        List<DetailsSubject> detailsSubjects { get; set; }
     }
 }

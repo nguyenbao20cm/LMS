@@ -74,7 +74,7 @@ namespace LMS.Repositories
             int check=0;
             if (clr.ImageFile != null)
             {
-                var fileName = clr.TaiKhoanId.ToString() + Path.GetExtension(clr.ImageFile.FileName);
+                var fileName = clr.ImageFile.FileName;
                 var uploadFolder = Path.Combine(_environment.WebRootPath, "img", "avatar");
                 var uploadPath = Path.Combine(uploadFolder, fileName);
                 using (FileStream fs = System.IO.File.Create(uploadPath))
@@ -137,7 +137,7 @@ namespace LMS.Repositories
             int check =0;
             if (image != null)
             {
-                var fileName = id.ToString() + Path.GetExtension(image.FileName);
+                var fileName =image.FileName;
                 var uploadFolder = Path.Combine(_environment.WebRootPath, "img", "avatar");
                 var uploadPath = Path.Combine(uploadFolder, fileName);
                 using (FileStream fs = System.IO.File.Create(uploadPath))
