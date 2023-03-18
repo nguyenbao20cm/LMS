@@ -21,8 +21,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\Document\Lesson\" />
     <Folder Include="wwwroot\img\avatar\" />
-    <Folder Include="wwwroot\" />
+    <Folder Include="wwwroot\Video\Lesson\" />
   </ItemGroup>
 
 </Project>

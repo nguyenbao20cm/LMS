@@ -18,5 +18,6 @@ namespace LMS.Model.Model
      
         public ICollection<TeachingSubject> TeachingSubject { get; set; }
         public ICollection<DetailsSubject> DetailsSubject { get; set; }
+        public ICollection<TopicSubject> TopicSubject { get; set; }
     }
 }

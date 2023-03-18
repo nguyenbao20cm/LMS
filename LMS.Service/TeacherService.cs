@@ -1,7 +1,12 @@
-﻿using LMS.DTO.Request.Subject;
+﻿using LMS.DTO.Request.ClassRoom;
+using LMS.DTO.Request.DetailLesson;
+using LMS.DTO.Request.Lesson;
+using LMS.DTO.Request.Subject;
 using LMS.DTO.Request.TeachingSubject;
+using LMS.DTO.Request.TopicSubject;
 using LMS.Model.Model;
 using LMS.Repositories;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -14,6 +19,17 @@ namespace LMS.Service
 {
     public interface ITeacherService
     {
+        bool UpdateDetailLesson(int id, string Name1, IFormFile DetailsLesson);
+        List<GetDetailLesson> GetAllDetailLesson(int Idlesson);
+        public bool CreateDetailLesson(int Idlesson, int IdAcc, string Name1, IFormFile DetailsLesson);
+        GetLesson GetLesson(int id);
+        List<GetAllClassRoom> GetAllClassRoom();
+        bool CreateLesson(CreateLesson Lesson);
+        bool UpdateLesson(int id,UpdateLesson Lesson);
+        bool UpdateTopicSubject(int id, UpdateTopicSubject UpdateTopicSubject);
+        public List<GetAllTopicSubject> GetAllTopicSubject(int id);
+       public List<GetAllSubject> GetAllSubject();
+        bool CreateTopicSubject(CreateTopicSubject TopicSubject);
         bool CheckIdSubject(int id);
         bool CreateInformationDetailSubject(AddDetailsSubject DetailsSubject);
         bool UpdateInformationDetailSubject(int id,UpdateDetailSubject DetailsSubject);
@@ -41,6 +57,26 @@ namespace LMS.Service
         public bool CheckID(int id)
         {
             return teacherRepositories.CheckID(id);
+        }
+        public List<GetAllSubject> GetAllSubject()
+        {
+            return teacherRepositories.GetAllSubject();
+        }
+        public List<GetAllTopicSubject> GetAllTopicSubject(int id)
+        {
+            return teacherRepositories.GetAllTopicSubject(id);
+        }
+        public GetLesson GetLesson(int id)
+        {
+            return teacherRepositories.GetLesson(id);
+        }
+        public bool UpdateTopicSubject(int id, UpdateTopicSubject UpdateTopicSubject)
+        {
+            TopicSubject topicSubject = new TopicSubject();
+
+            topicSubject.TopicSubjectId = id;
+            topicSubject.NameTopicSubject = UpdateTopicSubject.NameTopicSubject;
+            return teacherRepositories.UpdateTopicSubject(topicSubject);
         }
         public TeachingSubjectGetAll FindTeacherSubject(int IdAcc, int IdTeacherSubject)
         {
@@ -118,5 +154,43 @@ namespace LMS.Service
         {
             return teacherRepositories.DeleteInformationDetailSubject(id);
         }
+
+        public bool CreateTopicSubject(CreateTopicSubject TopicSubject)
+        {
+            TopicSubject result=new ();
+            result.NameTopicSubject = TopicSubject.NameTopicSubject;
+            result.SubjectId = TopicSubject.SubjectId;
+            return teacherRepositories.CreateTopicSubject(result);
+        }
+
+        public bool CreateLesson(CreateLesson Lesson)
+        {
+              
+            return teacherRepositories.CreateLesson(Lesson);
+        }
+        public List<GetAllClassRoom> GetAllClassRoom()
+        {
+            return teacherRepositories.GetAllClassRoom();
+        }
+        public bool UpdateLesson(int id,UpdateLesson Lesson)
+        {
+           
+            return teacherRepositories.UpdateLesson(id,Lesson);
+        }
+        public bool CreateDetailLesson(int Idlesson, int IdAcc, string Name1, IFormFile DetailsLesson)
+        {
+            return teacherRepositories.CreateDetailLesson(Idlesson, IdAcc, Name1, DetailsLesson);
+        }
+
+        public bool UpdateDetailLesson(int id, string Name1, IFormFile DetailsLesson)
+        {
+            return teacherRepositories.UpdateDetailLesson(id,Name1,DetailsLesson);
+        }
+
+        public List<GetDetailLesson> GetAllDetailLesson(int Idlesson)
+        {
+           return teacherRepositories.GetAllDetailLesson(Idlesson);  
+        }
     }
 }
+

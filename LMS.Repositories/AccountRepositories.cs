@@ -140,6 +140,7 @@ namespace LMS.Repositories
                 var fileName =image.FileName;
                 var uploadFolder = Path.Combine(_environment.WebRootPath, "img", "avatar");
                 var uploadPath = Path.Combine(uploadFolder, fileName);
+            
                 using (FileStream fs = System.IO.File.Create(uploadPath))
                 {
                     image.CopyTo(fs);

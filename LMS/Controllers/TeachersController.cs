@@ -1,6 +1,8 @@
-﻿using LMS.DTO.Request.Subject;
+﻿using LMS.DTO.Request.Lesson;
+using LMS.DTO.Request.Subject;
 using LMS.DTO.Request.TaiKhoanRequest;
 using LMS.DTO.Request.TeachingSubject;
+using LMS.DTO.Request.TopicSubject;
 using LMS.Model.Model;
 using LMS.Repositories;
 using LMS.Service;
@@ -104,6 +106,85 @@ namespace LMS.Controllers
             bool check = teacherService.DeleteInformationDetailSubject(id);
 
             return check ? Ok() : BadRequest("delete fail");
+        }
+        [HttpPost]
+        [Route("CreateTopicSubject")]
+        public ActionResult CreateTopicSubject([FromForm] CreateTopicSubject CreateTopicSubject)
+        {
+
+            bool check = teacherService.CreateTopicSubject(CreateTopicSubject);
+
+            return check ? Ok("Sucess") : BadRequest("Create fail");
+        }
+        [HttpGet]
+        [Route("GetAllSubjet")]
+        public ActionResult GetAllSubjet()
+        {
+
+            return Ok(teacherService.GetAllSubject());
+        }
+        [HttpGet("GetAllTopicSubject/{IdSubject}")]
+        public ActionResult GetAllTopicSubject(int IdSubject)
+        { 
+            return Ok(teacherService.GetAllTopicSubject(IdSubject));
+        }
+        [HttpPost]
+        [Route("CreateLesson")]
+        public ActionResult CreateLesson([FromForm] CreateLesson CreateLesson)
+        {
+
+            bool check = teacherService.CreateLesson(CreateLesson);
+
+            return check ? Ok("Sucess") : BadRequest("Create fail");
+        }
+        [HttpPut("UpdateLesson/{id}")]
+        public ActionResult UpdateLesson( int id, [FromForm] UpdateLesson clr)
+        {
+            bool check = teacherService.UpdateLesson(id, clr);
+            return check ? Ok("Sucess") : BadRequest("update fail");
+        }
+        [HttpPut("UpdateTopicSubject/{IdTopicSubject}")]
+        public ActionResult UpdateTopicSubject(int IdTopicSubject, UpdateTopicSubject clr)
+        {
+            bool check = teacherService.UpdateTopicSubject(IdTopicSubject, clr);
+            return check ? Ok("Sucess") : BadRequest("update fail");
+        }
+        [HttpGet]
+        [Route("GetAllClassRooms")]
+        public ActionResult GetAllClassRooms()
+        {
+            return Ok(teacherService.GetAllClassRoom());
+           
+        }
+        [HttpGet("GetLessonFromTopicSubject/{IdTopic}")]
+
+        public IActionResult GetLessonFromTopicSubject(int IdTopic)
+        {
+            if (teacherService.GetLesson(IdTopic) == null) return BadRequest();
+            return Ok(teacherService.GetLesson(IdTopic));
+        }
+        [HttpGet("GetAllDetailLesson/{IdLesson}")]
+
+        public IActionResult GetAllDetailLesson(int IdLesson)
+        {
+            if (teacherService.GetAllDetailLesson(IdLesson) == null) return BadRequest();
+            return Ok(teacherService.GetAllDetailLesson(IdLesson));
+        }
+
+        [HttpPost("CreateDetailLesson/{Idlesson},{IdAcc}")]
+
+        public ActionResult CreateDetailLesson(int Idlesson, int IdAcc, string Name, IFormFile DetailsLesson)
+        {
+
+            bool check = teacherService.CreateDetailLesson(Idlesson,IdAcc, Name, DetailsLesson);
+
+            return check ? Ok("Sucess") : BadRequest("Create fail");
+        }
+        [HttpPut("UpdateDetailLesson/{id}")]
+        public ActionResult UpdateDetailLesson(int id,string name, [FromForm] IFormFile clr)
+        {
+            bool check = teacherService.UpdateDetailLesson(id,name, clr);
+            return check ? Ok("Sucess") : BadRequest("update fail");
         }
     }
 }

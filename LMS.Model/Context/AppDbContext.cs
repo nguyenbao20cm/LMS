@@ -13,6 +13,11 @@ namespace LMS.Context
         public DbSet<Subject> Subject { get; set; }
         public DbSet<TeachingSubject> TeachingSubject { get; set; }
         public DbSet<DetailsSubject> DetailsSubject { get; set; }
+        public DbSet<Lesson> Lesson { get; set; }
+        public DbSet<TopicSubject> TopicSubject { get; set; }
+        public DbSet<DetailsLesson> DetailsLesson { get; set; }
+        
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Account>(builder =>
@@ -41,17 +46,7 @@ namespace LMS.Context
                 builder.HasOne(x => x.ClassRoom)
                .WithMany(x => x.TeachingSubject).HasForeignKey(x => x.ClassRoomID);
             });
-            //modelBuilder.Entity<CT_TeachingSubject>(builder =>
-            //{
-            //    builder.ToTable(nameof(CT_TeachingSubject));
-            //    builder.HasKey(x => x.CT_TeachingSubjectId);
-            //    builder.HasOne(x => x.Subject)
-            //   .WithMany(x => x.CT_TeachingSubject).HasForeignKey(x => x.SubjectID);
-            //    builder.HasOne(x => x.ClassRoom)
-            //   .WithMany(x => x.CT_TeachingSubject).HasForeignKey(x => x.ClassRoomID);
-            //    builder.HasOne(x => x.TeachingSubject)
-            //  .WithMany(x => x.CT_TeachingSubject).HasForeignKey(x => x.TeachingSubjectID);
-            //});
+            
         }
     }
 }
