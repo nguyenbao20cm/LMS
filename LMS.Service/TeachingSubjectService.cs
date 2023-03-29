@@ -23,6 +23,7 @@ namespace LMS.Service
         {
             this.teachingSubjectRepositories = teachingSubjectRepositories;
             this.taiKhoanRepository = taiKhoanRepository;
+        
         }
 
         public bool Create(CreateTeachingSubject createTeachingSubject)
@@ -31,7 +32,7 @@ namespace LMS.Service
             result.AccountID = createTeachingSubject.AccountID;
             result.ClassRoomID=createTeachingSubject.ClassRoomID;
             result.SubjectID = createTeachingSubject.SubjectID;
-            return ITeachingSubjectRepositories.Create(result);
+            return teachingSubjectRepositories.Create(result);
         }
         public List<GetTeachingSB> getALL()
         {
