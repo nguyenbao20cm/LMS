@@ -93,6 +93,23 @@ namespace LMS.Model.Migrations
                     b.ToTable("ClassRoom", (string)null);
                 });
 
+            modelBuilder.Entity("LMS.Model.Model.DetailExam", b =>
+                {
+                    b.Property<int>("ExamId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DetailExamID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("NameFile")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ExamId", "DetailExamID");
+
+                    b.ToTable("DetailExam");
+                });
+
             modelBuilder.Entity("LMS.Model.Model.DetailsLesson", b =>
                 {
                     b.Property<int>("DetailsLessonId")
@@ -153,6 +170,48 @@ namespace LMS.Model.Migrations
                     b.HasIndex("SubjectId");
 
                     b.ToTable("DetailsSubject");
+                });
+
+            modelBuilder.Entity("LMS.Model.Model.Exam", b =>
+                {
+                    b.Property<int>("ExamId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ExamId"));
+
+                    b.Property<int>("Category")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Form")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Subjcet")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TeacherId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Time")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("dateTime")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ExamId");
+
+                    b.HasIndex("TeacherId");
+
+                    b.ToTable("Exam");
                 });
 
             modelBuilder.Entity("LMS.Model.Model.Lesson", b =>
@@ -302,6 +361,17 @@ namespace LMS.Model.Migrations
                     b.ToTable("TopicSubject");
                 });
 
+            modelBuilder.Entity("LMS.Model.Model.DetailExam", b =>
+                {
+                    b.HasOne("LMS.Model.Model.Exam", "Exam")
+                        .WithMany("DetailExam")
+                        .HasForeignKey("ExamId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Exam");
+                });
+
             modelBuilder.Entity("LMS.Model.Model.DetailsLesson", b =>
                 {
                     b.HasOne("LMS.Model.Model.Lesson", "lesson")
@@ -322,6 +392,17 @@ namespace LMS.Model.Migrations
                         .IsRequired();
 
                     b.Navigation("Subject");
+                });
+
+            modelBuilder.Entity("LMS.Model.Model.Exam", b =>
+                {
+                    b.HasOne("LMS.Model.Model.Account", "Teacher")
+                        .WithMany("Exam")
+                        .HasForeignKey("TeacherId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Teacher");
                 });
 
             modelBuilder.Entity("LMS.Model.Model.Lesson", b =>
@@ -410,6 +491,8 @@ namespace LMS.Model.Migrations
 
             modelBuilder.Entity("LMS.Model.Model.Account", b =>
                 {
+                    b.Navigation("Exam");
+
                     b.Navigation("StudentSubject");
 
                     b.Navigation("TeachingSubject");
@@ -420,6 +503,11 @@ namespace LMS.Model.Migrations
                     b.Navigation("StudentSubject");
 
                     b.Navigation("TeachingSubject");
+                });
+
+            modelBuilder.Entity("LMS.Model.Model.Exam", b =>
+                {
+                    b.Navigation("DetailExam");
                 });
 
             modelBuilder.Entity("LMS.Model.Model.Lesson", b =>

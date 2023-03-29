@@ -5,7 +5,7 @@ using LMS.DTO.Request.Lesson;
 using LMS.DTO.Request.Subject;
 using LMS.DTO.Request.TeachingSubject;
 using LMS.DTO.Request.TopicSubject;
-using LMS.Model.Migrations;
+
 using LMS.Model.Model;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;

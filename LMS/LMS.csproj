@@ -24,6 +24,7 @@
   <ItemGroup>
     <Folder Include="wwwroot\Document\Lesson\" />
     <Folder Include="wwwroot\img\avatar\" />
+    <Folder Include="wwwroot\Exam\" />
     <Folder Include="wwwroot\Video\Lesson\" />
     <Folder Include="wwwroot\Video\DetailLesson\" />
   </ItemGroup>

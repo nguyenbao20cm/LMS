@@ -1,6 +1,6 @@
 ﻿using LMS.DTO.Request.StudentSubject;
 using LMS.DTO.Request.TeachingSubject;
-using LMS.Model.Migrations;
+
 using LMS.Model.Model;
 using LMS.Repositories;
 using System;

@@ -42,6 +42,10 @@ builder.Services.AddTransient<IStudentSubjectRepositories, StudentSubjectReposit
 builder.Services.AddTransient<IStudentSubjectService, StudentSubjectService>();
 
 builder.Services.AddTransient<IFileService, DowloadLesson>();
+builder.Services.AddTransient<IExamRepositories, ExamRepositories>();
+builder.Services.AddTransient<IExamService, ExamService>();
+builder.Services.AddTransient<IDetailExamRepositories, DetailExamRepositories>();
+builder.Services.AddTransient<IDetailExamService, DetailExamService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -1,5 +1,5 @@
 ﻿using LMS.Context;
-using LMS.Model.Migrations;
+
 using LMS.Model.Model;
 using Microsoft.EntityFrameworkCore;
 using System;

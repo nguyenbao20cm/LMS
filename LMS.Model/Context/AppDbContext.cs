@@ -17,10 +17,17 @@ namespace LMS.Context
         public DbSet<TopicSubject> TopicSubject { get; set; }
         public DbSet<DetailsLesson> DetailsLesson { get; set; }
         public DbSet<StudentSubject> StudentSubject { get; set; }
+        public DbSet<Exam> Exam { get; set; }
+        public DbSet<DetailExam> DetailExam { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<DetailExam>().HasKey(u => new
+            {
+                u.ExamId,
+                u.DetailExamID
+            });
             modelBuilder.Entity<Account>(builder =>
             {
                 builder.ToTable(nameof(TaiKhoan));

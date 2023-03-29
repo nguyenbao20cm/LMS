@@ -26,5 +26,6 @@ namespace LMS.Model.Model
         public string DiaChi { get; set; }
         public ICollection<TeachingSubject> TeachingSubject { get; set; }
         public ICollection<StudentSubject> StudentSubject { get; set; }
+        public ICollection<Exam> Exam { get; set; }
     }
 }
