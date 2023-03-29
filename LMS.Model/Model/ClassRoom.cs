@@ -15,5 +15,6 @@ namespace LMS.Model.Model
         public int Quantity { get; set; }
         public string Describe { get; set; }
         public ICollection<TeachingSubject> TeachingSubject { get; set; }
+        public ICollection<StudentSubject> StudentSubject { get; set; }
     }
 }

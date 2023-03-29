@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace LMS.DTO.Request.Subject
 {
-    public class GetAllSubject
+    public class GetSubject
     {
         public int SubjectId { get; set; }
         public string Name { get; set; }
         public string Describe { get; set; }
         public string Status { get; set; }
         public int Document { get; set; }
-
+    
     }
 }

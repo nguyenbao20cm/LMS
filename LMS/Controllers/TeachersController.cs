@@ -1,4 +1,6 @@
-﻿using LMS.DTO.Request.Lesson;
+﻿using Grpc.Core;
+using LMS.DTO.Helper;
+using LMS.DTO.Request.Lesson;
 using LMS.DTO.Request.Subject;
 using LMS.DTO.Request.TaiKhoanRequest;
 using LMS.DTO.Request.TeachingSubject;
@@ -6,8 +8,11 @@ using LMS.DTO.Request.TopicSubject;
 using LMS.Model.Model;
 using LMS.Repositories;
 using LMS.Service;
+using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.StaticFiles;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.ConstrainedExecution;
 
 namespace LMS.Controllers
@@ -17,9 +22,14 @@ namespace LMS.Controllers
     public class TeachersController : ControllerBase
     {
         private readonly ITeacherService teacherService;
-        public TeachersController(ITeacherService teacherService)
+        private readonly IFileService _fileService;
+        private readonly ISubjectService subjectService;
+
+        public TeachersController(ISubjectService subjectService,IFileService _fileService,ITeacherService teacherService)
         {
             this.teacherService = teacherService;
+            this._fileService = _fileService;
+            this.subjectService = subjectService;
         }
         [HttpGet("GetAllTeachingSubjectByNameAZ/{IdAccount}")]
 
@@ -84,8 +94,7 @@ namespace LMS.Controllers
 
             return check ? Ok("Sucess") : BadRequest("update fail");
         }
-        [HttpPost]
-        [Route("CreateInformationSubject")]
+        [HttpPost("CreateInformationSubject")]
         public ActionResult CreateInformationDetailSubject([FromForm] AddDetailsSubject DetailsSubject)
         {
           
@@ -185,6 +194,46 @@ namespace LMS.Controllers
         {
             bool check = teacherService.UpdateDetailLesson(id,name, clr);
             return check ? Ok("Sucess") : BadRequest("update fail");
+        }
+        [HttpGet(nameof(DownloadLesson))]
+        public async Task<IActionResult> DownloadLesson([Required] string filename)
+        {
+
+           var filepath=Path.Combine(Directory.GetCurrentDirectory(),"wwwroot\\Video\\Lesson",filename);
+            var provider = new FileExtensionContentTypeProvider();
+            if(!provider.TryGetContentType(filepath,out var contentype))
+            {
+                contentype = "applycation/octet-stream";
+            }
+            var bytes = await System.IO.File.ReadAllBytesAsync(filepath);
+            return File(bytes, contentype, Path.GetFileName(filepath));
+
+
+        }
+        [HttpGet(nameof(DownloadDetailLesson))]
+        public async Task<IActionResult> DownloadDetailLesson([Required] string filename)
+        {
+
+            var filepath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\Video\\DetailLesson", filename);
+            var provider = new FileExtensionContentTypeProvider();
+            if (!provider.TryGetContentType(filepath, out var contentype))
+            {
+                contentype = "applycation/octet-stream";
+            }
+            var bytes = await System.IO.File.ReadAllBytesAsync(filepath);
+            return File(bytes, contentype, Path.GetFileName(filepath));
+
+
+        }
+        //tao mon hoc
+        [HttpPost("CreateSubject")]
+
+        public ActionResult CreateSubject(CreateSubject create)
+        {
+
+            bool check = subjectService.create(create);
+
+            return check ? Ok("Sucess") : BadRequest("Create fail");
         }
     }
 }

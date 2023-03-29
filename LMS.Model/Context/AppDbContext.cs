@@ -16,7 +16,8 @@ namespace LMS.Context
         public DbSet<Lesson> Lesson { get; set; }
         public DbSet<TopicSubject> TopicSubject { get; set; }
         public DbSet<DetailsLesson> DetailsLesson { get; set; }
-        
+        public DbSet<StudentSubject> StudentSubject { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -39,8 +40,10 @@ namespace LMS.Context
             {
                 builder.ToTable(nameof(TeachingSubject));
                 builder.HasKey(x => x.TeachingSubjectId);
-                builder.HasOne(x => x.Account)
-               .WithMany(x => x.TeachingSubject).HasForeignKey(x => x.AccountID);
+                builder
+               .HasOne(x => x.Account)
+               .WithMany(x => x.TeachingSubject)
+               .HasForeignKey(x => x.AccountID);
                 builder.HasOne(x => x.Subject)
                .WithMany(x => x.TeachingSubject).HasForeignKey(x => x.SubjectID);
                 builder.HasOne(x => x.ClassRoom)

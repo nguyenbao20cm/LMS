@@ -165,7 +165,6 @@ namespace LMS.Service
 
         public bool CreateLesson(CreateLesson Lesson)
         {
-              
             return teacherRepositories.CreateLesson(Lesson);
         }
         public List<GetAllClassRoom> GetAllClassRoom()

@@ -4,6 +4,7 @@ using LMS.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LMS.Model.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230328113441_int123")]
+    partial class int123
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -201,14 +204,8 @@ namespace LMS.Model.Migrations
                     b.Property<int>("AccountID")
                         .HasColumnType("int");
 
-                    b.Property<int>("AccountTeacherId")
-                        .HasColumnType("int");
-
                     b.Property<int>("ClassRoomID")
                         .HasColumnType("int");
-
-                    b.Property<bool>("Start")
-                        .HasColumnType("bit");
 
                     b.Property<int>("SubjectID")
                         .HasColumnType("int");
@@ -242,6 +239,9 @@ namespace LMS.Model.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Start")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Status")
                         .IsRequired()

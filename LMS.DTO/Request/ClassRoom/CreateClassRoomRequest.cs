@@ -4,15 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LMS.DTO.Request.Subject
+namespace LMS.DTO.Request.ClassRoom
 {
-    public class GetAllSubject
+    public class CreateClassRoomRequest
     {
-        public int SubjectId { get; set; }
         public string Name { get; set; }
+        public int Quantity { get; set; }
         public string Describe { get; set; }
-        public string Status { get; set; }
-        public int Document { get; set; }
-
     }
 }

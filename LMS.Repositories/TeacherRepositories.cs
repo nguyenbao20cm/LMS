@@ -377,7 +377,7 @@ namespace LMS.Repositories
                 int check = 0;
 
                 var fileName = DetailsLesson.FileName;
-                var uploadFolder = Path.Combine(_environment.WebRootPath, "Document", "Lesson");
+                var uploadFolder = Path.Combine(_environment.WebRootPath, "Video", "DetailLesson");
                 var uploadPath = Path.Combine(uploadFolder, fileName);
                 using (FileStream fs = System.IO.File.Create(uploadPath))
                 {

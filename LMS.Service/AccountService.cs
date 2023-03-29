@@ -10,6 +10,7 @@ namespace LMS.Service
 {
     public interface ITaiKhoanService
     {
+       
         bool CheckID(int id);
         List<TeachingSubjectGetAll> GetAllTeachingSubject(int id);
         bool create(TaiKhoanCreateRequest clr);
@@ -18,7 +19,7 @@ namespace LMS.Service
         List<Account> GetAll();
         Account GetById(int id);
         Account Detail(int id);
-        bool Authencate(string username, string password);
+        LoginSucess Authencate(string username, string password);
         public bool ChangeAvatar(int id, IFormFile image);
         bool ChangePassword(int id, string pass);
         public bool CheckPass(int id, string pass);
@@ -37,6 +38,7 @@ namespace LMS.Service
             
             return TaiKhoanRepository.GetAllTeachingSubject(id);
         }
+       
         public bool ChangePassword(int id, string pass)
         {
             if (id == null)
@@ -45,16 +47,11 @@ namespace LMS.Service
                 return false;
             return TaiKhoanRepository.ChangePassword(id, pass);
         }
-        public bool Authencate(string username, string password)
+        public LoginSucess Authencate(string username, string password)
         {
 
-            if (username == null)
-                return false;
-            if (password == null)
-                return false;
-            if (TaiKhoanRepository.Authencate(username, password) == true) return true;
-            else
-                return false;
+          
+                return TaiKhoanRepository.Authencate(username, password) ;
         }
 
         public bool ChangeAvatar(int id, IFormFile image)

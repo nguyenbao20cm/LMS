@@ -4,6 +4,7 @@ using LMS.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LMS.Model.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230328105226_avv")]
+    partial class avv
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -190,40 +193,6 @@ namespace LMS.Model.Migrations
                     b.ToTable("Lesson");
                 });
 
-            modelBuilder.Entity("LMS.Model.Model.StudentSubject", b =>
-                {
-                    b.Property<int>("StudentSubjectId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StudentSubjectId"));
-
-                    b.Property<int>("AccountID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("AccountTeacherId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ClassRoomID")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("Start")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("SubjectID")
-                        .HasColumnType("int");
-
-                    b.HasKey("StudentSubjectId");
-
-                    b.HasIndex("AccountID");
-
-                    b.HasIndex("ClassRoomID");
-
-                    b.HasIndex("SubjectID");
-
-                    b.ToTable("StudentSubject");
-                });
-
             modelBuilder.Entity("LMS.Model.Model.Subject", b =>
                 {
                     b.Property<int>("SubjectId")
@@ -242,6 +211,9 @@ namespace LMS.Model.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Start")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Status")
                         .IsRequired()
@@ -343,33 +315,6 @@ namespace LMS.Model.Migrations
                     b.Navigation("TopicSubject");
                 });
 
-            modelBuilder.Entity("LMS.Model.Model.StudentSubject", b =>
-                {
-                    b.HasOne("LMS.Model.Model.Account", "Account")
-                        .WithMany("StudentSubject")
-                        .HasForeignKey("AccountID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("LMS.Model.Model.ClassRoom", "ClassRoom")
-                        .WithMany("StudentSubject")
-                        .HasForeignKey("ClassRoomID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("LMS.Model.Model.Subject", "Subject")
-                        .WithMany("StudentSubject")
-                        .HasForeignKey("SubjectID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Account");
-
-                    b.Navigation("ClassRoom");
-
-                    b.Navigation("Subject");
-                });
-
             modelBuilder.Entity("LMS.Model.Model.TeachingSubject", b =>
                 {
                     b.HasOne("LMS.Model.Model.Account", "Account")
@@ -410,15 +355,11 @@ namespace LMS.Model.Migrations
 
             modelBuilder.Entity("LMS.Model.Model.Account", b =>
                 {
-                    b.Navigation("StudentSubject");
-
                     b.Navigation("TeachingSubject");
                 });
 
             modelBuilder.Entity("LMS.Model.Model.ClassRoom", b =>
                 {
-                    b.Navigation("StudentSubject");
-
                     b.Navigation("TeachingSubject");
                 });
 
@@ -430,8 +371,6 @@ namespace LMS.Model.Migrations
             modelBuilder.Entity("LMS.Model.Model.Subject", b =>
                 {
                     b.Navigation("DetailsSubject");
-
-                    b.Navigation("StudentSubject");
 
                     b.Navigation("TeachingSubject");
 

@@ -8,12 +8,23 @@ using Microsoft.AspNetCore.Http;
 using System.Runtime.ConstrainedExecution;
 using Microsoft.AspNetCore.Mvc;
 using LMS.DTO.Request.TeachingSubject;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using Microsoft.Extensions.Configuration;
+using LMS.DTO.Helper;
+using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
+using Microsoft.Data.Sql;
+using LMS.DTO.Request.TaiKhoanRequest;
 
 namespace LMS.Repositories
 {
     public interface ITaiKhoanRepository
     {
         bool CheckID(int id);
+        
        List<TeachingSubjectGetAll> GetAllTeachingSubject(int id);
         bool ChangePassword(int id, string pass);
         bool create(CreateAccFileANh clr);
@@ -21,7 +32,7 @@ namespace LMS.Repositories
         bool delete(int id);
         List<Account> GetAll();
         Account GetById(int id);
-        bool Authencate(string username,string password );
+        LoginSucess Authencate(string username,string password );
         Account Detail(int id);
         public bool ChangeAvatar(int id, IFormFile image);
         public bool CheckPass(int id, string pass);
@@ -30,10 +41,13 @@ namespace LMS.Repositories
     {
         private readonly AppDbContext context;
         private readonly IWebHostEnvironment _environment;
-        public AccountRepositories(AppDbContext context, IWebHostEnvironment _environment)
+        private readonly AppSettings _appSettings;
+
+        public AccountRepositories(AppDbContext context, IWebHostEnvironment _environment,IConfiguration configuration)
         {
             this.context = context;
             this._environment = _environment;
+            this._appSettings = configuration.GetSection("AppSettings").Get<AppSettings>();
         }
         public List<TeachingSubjectGetAll> GetAllTeachingSubject(int id)
         {
@@ -54,12 +68,33 @@ namespace LMS.Repositories
             }
             return result;
         }
-        public bool Authencate(string username,string password)
+       
+        public LoginSucess Authencate(string username,string password)
         {
+           
             var check = context.TaiKhoan.Where(x => x.MatKhau == password).Where(x => x.TenDangNhap == username).FirstOrDefault();
-            if (check == null) return false;
-            else return true;
+            if (check != null)
+            {
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var key = Encoding.ASCII.GetBytes(_appSettings.Secret);// lay key trong appsetting
+                var tokenDescriptor = new SecurityTokenDescriptor
+                {   
+                    Subject = new ClaimsIdentity(new[] 
+                    {
+                       new Claim("id", check.TaiKhoanId.ToString()),
+                       new Claim("Name", check.TenNguoiDung.ToString()),
+                    }),
+                    Expires = DateTime.UtcNow.AddDays(7),
+                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                };
+                var token = tokenHandler.CreateToken(tokenDescriptor);
+                var jwtToken = tokenHandler.WriteToken(token);
+                return new LoginSucess(check,jwtToken);
+            }
+            return null;
+
         }
+        
         public bool ChangePassword(int id, string pass)
         {
             var a = context.TaiKhoan.Where(x => x.TaiKhoanId == id).FirstOrDefault();
@@ -167,7 +202,8 @@ namespace LMS.Repositories
 
         public bool CheckID(int id)
         {
-            var check = context.TaiKhoan.Where(x => x.TaiKhoanId == id).FirstOrDefault();
+            var check = context.TaiKhoan.Where(x => x.TaiKhoanId == id).First();
+            
             if (check == null) return false;
             else return true;
         }

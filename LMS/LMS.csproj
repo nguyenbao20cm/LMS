@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Grpc.Core" Version="2.46.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.3">
       <PrivateAssets>all</PrivateAssets>
@@ -24,6 +25,7 @@
     <Folder Include="wwwroot\Document\Lesson\" />
     <Folder Include="wwwroot\img\avatar\" />
     <Folder Include="wwwroot\Video\Lesson\" />
+    <Folder Include="wwwroot\Video\DetailLesson\" />
   </ItemGroup>
 
 </Project>

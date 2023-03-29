@@ -12,10 +12,10 @@ namespace LMS.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TeacherAccountsController : ControllerBase
+    public class AccountsController : ControllerBase
     {
         private readonly ITaiKhoanService taiKhoanService;
-        public TeacherAccountsController(ITaiKhoanService taiKhoanService)
+        public AccountsController(ITaiKhoanService taiKhoanService)
         {
             this.taiKhoanService = taiKhoanService;
         }
@@ -79,9 +79,11 @@ namespace LMS.Controllers
         //[Route("SiginIn")]
         public ActionResult SignIn(string username, string password)
         {
-            bool check = taiKhoanService.Authencate(username, password);
+            var check = taiKhoanService.Authencate(username, password);
 
-            return check ? Ok() : BadRequest("fail");
+            if (check == null) return BadRequest();
+            else
+                return Ok(check);
 
         }
         
